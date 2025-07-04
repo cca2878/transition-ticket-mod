@@ -506,6 +506,11 @@ class Task:
         """
         等待余票
         """
+        logger.info("【等待余票】跳过等待余票")
+        self.availableTime = int(time())
+        self.queryTicketCode = True
+        return
+
         code, msg, clickable, salenum, num = self.api.QueryAmount()
         self.queryTicketCode = clickable or salenum != 4 or num > 0
 
@@ -572,7 +577,7 @@ class Task:
 
             # 请慢一点
             case 100001:
-                logger.error("【创建订单】登录态不完整 (100001)")
+                logger.error("【创建订单】前方拥堵，请重试 (100001)")
                 self.AutoSleepInterval()
 
             case 3:
